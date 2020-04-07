@@ -1,8 +1,7 @@
-// Functions that simulates a graph using the Top-Down approach.
-// Author: Josue Mosiah Contreras Rocha
+// Functions that simulates a node with basic operators
 // Author: Gabriela Rojano
 // File: graph.h
-// Date: 07/03/20
+// Date: 30/03/20
 
 #ifndef EX1_H
 #define EX1_H
