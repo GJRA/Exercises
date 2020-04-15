@@ -19,48 +19,51 @@
 /* Private types */
 int Threshold = 1;
 
-void ini() {
+void ini(int row, int col,int **data) {
+    srand((unsigned int)time(NULL));
     int capas = menuC("cuantas capas quieres");
     int nodos = menuC("cuantos nodos en cada capa quieres");
     int e = 1;
     int e2 =1;
     srand ( time(NULL) );
-    //Leer el csv y sacar la x1 y x2 para la y
     NodeP_t *nodo1 = calloc(1, sizeof(NodeP_t));
     NodeP_t *nodo2 = calloc(1, sizeof(NodeP_t));
-    nodo1->entrada1 = 0;
-    nodo1->entrada2 = 1;
-    nodo1->salida = 0;
-    nodo2->entrada1 = 0;
-    nodo2->entrada2 = 1;
-    nodo2->salida = 0;
-    double w[2][2];
-    w[0][0]= 0.5;
-    w[0][1]= 0.25;
-    w[1][0]= 0.4;
-    w[1][1]= 0.7;
-    int var,var2;
-    var = checarT(nodo1->entrada1,nodo1->entrada2);
-    var2 = checarT(nodo2->entrada1,nodo2->entrada2);
-    double re,re2,eh1,eh2,k,k1;
-    while (e!=0 && e2!=0){
-        k=(double)var;
-        k1=(double)var2;
-        k= (w[0][0]);
-        k1=(w[1][0]);
-        re = checarTD(k,k1);
-        k=(double)(w[0][1] * var);
-        k1=(double)(var2 * w[1][1]);
-        re2 = checarTD(k,k1);
-        e = error(nodo1->salida,re);
-        e2 = error(nodo1->salida,re2);
-        if (e!=0){
-            eh1=errorH(e,e2,w[0][0],w[1][0],w[0][1],w[1][1]);
-            eh2=errorH(e,e2,w[1][0],w[0][0],w[1][1],w[0][1]);
-            w[0][0]=corregir(w[0][0],eh1,nodo1->entrada1);
-            w[0][1]=corregir(w[0][1],eh1,nodo1->entrada1);
-            w[0][0]=corregir(w[1][0],eh2,nodo1->entrada2);
-            w[0][0]=corregir(w[1][0],eh2,nodo1->entrada2);
+    for(int k=0;k<row;k++){
+        nodo1->entrada1 = data[k][0];
+        nodo1->entrada2 = data[k][1];
+        nodo1->salida = data[k][2];
+        nodo2->entrada1 = data[k][0];
+        nodo2->entrada2 = data[k][1];
+        nodo2->salida = data[k][2];
+        double w[2][2];
+        w[0][0]= (float)rand()/RAND_MAX;
+        w[0][1]= (float)rand()/RAND_MAX;
+        w[1][0]= (float)rand()/RAND_MAX;
+        w[1][1]= (float)rand()/RAND_MAX;
+        int var,var2;
+        var = checarT(nodo1->entrada1,nodo1->entrada2);
+        var2 = checarT(nodo2->entrada1,nodo2->entrada2);
+        double re,re2,eh1,eh2,k,k1;
+        while (e!=0 && e2!=0){
+            k=(double)var;
+            k1=(double)var2;
+            k= (w[0][0]);
+            k1=(w[1][0]);
+            re = checarTD(k,k1);
+            k=(double)(w[0][1] * var);
+            k1=(double)(var2 * w[1][1]);
+            re2 = checarTD(k,k1);
+            e = error(nodo1->salida,re);
+            e2 = error(nodo1->salida,re2);
+            printf("Error %ld Error 2 %ld\n",e,e2);
+            if (e!=0){
+                eh1=errorH(e,e2,w[0][0],w[1][0],w[0][1],w[1][1]);
+                eh2=errorH(e,e2,w[1][0],w[0][0],w[1][1],w[0][1]);
+                w[0][0]=corregir(w[0][0],eh1,nodo1->entrada1);
+                w[0][1]=corregir(w[0][1],eh1,nodo1->entrada1);
+                w[0][0]=corregir(w[1][0],eh2,nodo1->entrada2);
+                w[0][0]=corregir(w[1][0],eh2,nodo1->entrada2);
+            }
         }
     }
 }

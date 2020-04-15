@@ -32,12 +32,6 @@ int main(void) {
 		data[i] = (int*)malloc(col * sizeof(int));
 	}
     read_csv(4,3,"tablaAND.csv",&data);
-
-    for(int k=0;k<row;k++){
-        for(int y=0;y<col;y++){
-            printf("- %d - ",data[k][y]);
-        }
-        printf("\n");
-    }
+    ini(4,3,data);
     return 0;
 }
