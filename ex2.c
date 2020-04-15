@@ -108,7 +108,7 @@ int corregir(int wi,int E,int xi){
     return resultado;
 }
 
-void read_csv(int row, int col, char *filename, char **data){
+void read_csv(int row, int col, char *filename,int ***data){
 	FILE *file;
 	file = fopen(filename, "r");
 
@@ -117,32 +117,25 @@ void read_csv(int row, int col, char *filename, char **data){
     
     while (fgets(line, 4098, file) && (i < row))
     {
-        char* tmp = strdup(line);
-        printf("La linea es %s",tmp);
+        const char* tmp = strdup(line);
         int j = 0;
         int l = 0;
+        int x = 0;
         while(tmp[l]!='\0')
         {
-            if (tmp[l] != ','){
-                //printf("%c", line[l]);
-                char v[2];
-                v[0] = '0';
-                v[1] = tmp[l];
-                printf("+++A%cD+++\n",v[1]);
-                int k = atoi("01");
-                //**data[i][j] = '1';
-                //data[i][j] = line[l];               
-                //printf("%c", data[i][j]);
+            if (tmp[l] != ',' && x < (row-1)){
+                char v[3];
+                v[0]='0';
+                v[1]=tmp[l];
+                v[2]='\0';
+                int k = atoi(v);
+                (*data)[i][j] = k;        
                 j++;
+                x++;
             }
             l++;
         }
-        /*char* tmp = strdup(line);
-        printf("La linea es %s",tmp);
-	    */
-	    printf("\n");
-        printf("--------i = %d\n",i);
-        //free(tmp);
+        free(tmp);
         i++;
     }
 }
